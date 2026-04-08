@@ -1,7 +1,7 @@
 streamlit
-pandas
 yfinance
 plotly
 firebase-admin
 streamlit-lottie
 requests
+pandas
