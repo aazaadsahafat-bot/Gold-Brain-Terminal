@@ -1,0 +1,8 @@
+streamlit
+pandas
+yfinance
+plotly
+firebase-admin
+streamlit-lottie
+requests
+pandas_ta==0.3.14b0
