@@ -19,6 +19,25 @@ st.markdown("""
     .trade-card { border: 2px solid #d4af37; background: #0f0f0f; padding: 20px; border-radius: 10px; border-left: 10px solid #d4af37; margin-bottom: 20px;}
     .news-ticker { background: #111; padding: 10px; border-radius: 5px; border: 1px dashed #d4af37; margin-bottom: 20px; font-size: 13px; }
     .stButton>button { background: linear-gradient(135deg, #8a7020 0%, #d4af37 100%) !important; color: black !important; font-weight: bold !important; border: none !important; }
+    
+    /* Telegram Button Styling */
+    .tg-button {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #0088cc;
+        color: white !important;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        border: 2px solid #00a2f2;
+        transition: 0.3s;
+    }
+    .tg-button:hover {
+        background-color: #00a2f2;
+        box-shadow: 0 0 15px rgba(0,136,204,0.5);
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -37,27 +56,27 @@ def calculate_gold_signals():
     gold = yf.Ticker("GC=F")
     df = gold.history(interval="15m", period="5d")
     
-    # 1. Technical Factors (EMA & RSI)
+    # Technical Factors (EMA & RSI) - Manual calculation for stability
     df['EMA_200'] = df['Close'].ewm(span=200, adjust=False).mean()
     delta = df['Close'].diff()
     gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
     loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
     df['RSI'] = 100 - (100 / (1 + (gain / loss)))
 
-    # 2. Macro Factors (Simulated Live Feeds)
-    inflation_pressure = 3.2 # Current CPI bias
-    production_cost = 1350 # Global average floor price
+    # Macro Factors
+    inflation_pressure = 3.2 
+    production_cost = 1350 
     
     curr = df['Close'].iloc[-1]
     ema = df['EMA_200'].iloc[-1]
     rsi = df['RSI'].iloc[-1]
     
-    # Prediction Logic (Multi-Factor Confluence)
+    # Logic
     score = 0
-    if curr > ema: score += 40  # Trend
-    if rsi < 35: score += 30   # Oversold
-    if curr > production_cost: score += 20 # Value floor
-    if inflation_pressure > 3.0: score += 10 # Hedge demand
+    if curr > ema: score += 40  
+    if rsi < 35: score += 30   
+    if curr > production_cost: score += 20 
+    if inflation_pressure > 3.0: score += 10 
 
     if score >= 80:
         signal, tp, sl = "🚀 INSTITUTIONAL BUY", curr + 18.5, curr - 9.0
@@ -74,15 +93,14 @@ if 'auth' not in st.session_state: st.session_state.auth = None
 st.sidebar.title("💎 ANDREW AI v7.0")
 st.sidebar.markdown("---")
 
-# Telegram & Community
-st.sidebar.subheader("📢 COMMUNITY")
+# Telegram Channel Access
+st.sidebar.subheader("📢 OFFICIAL CHANNEL")
 st.sidebar.markdown("""
-<a href="https://t.me/your_link" target="_blank">
-    <button style="width:100%; border-radius:5px; background:#0088cc; color:white; border:none; padding:10px; font-weight:bold; cursor:pointer;">
-        JOIN TELEGRAM CHANNEL
-    </button>
-</a>
-""", unsafe_allow_html=True)
+    <a href="https://t.me/AndrewTraderGold" target="_blank" class="tg-button">
+        JOIN TELEGRAM NOW
+    </a>
+    """, unsafe_allow_html=True)
+st.sidebar.markdown("---")
 
 if not st.session_state.auth:
     u = st.sidebar.text_input("Access ID")
@@ -120,10 +138,9 @@ if st.session_state.auth:
     # --- TRADING TERMINAL ---
     st.title("📊 GOLD AI PREDICTION ENGINE")
     
-    # News & Sentiment Ticker
     st.markdown(f"""
     <div class="news-ticker">
-        <b>LIVE SENTIMENT:</b> 🇺🇸 US CPI Data expected higher (Bullish Gold) | 📉 USD Index weakening | 🏭 Global Gold Mine Output down 2% (Supply Squeeze) | <b>AI CONFIDENCE: 99.1%</b>
+        <b>LIVE SENTIMENT:</b> 🇺🇸 US CPI Data expected higher (Bullish Gold) | 📉 USD Index weakening | 🏭 Global Gold Mine Output down 2% | <b>AI CONFIDENCE: 99.1%</b>
     </div>
     """, unsafe_allow_html=True)
 
@@ -135,7 +152,6 @@ if st.session_state.auth:
     col3.metric("MACRO SCORE", f"{score}%")
     col4.metric("VOLATILITY", "HIGH")
 
-    # Trade Execution Card
     st.markdown(f"""
     <div class="trade-card">
         <h3 style="margin:0; color:#d4af37;">🎯 TRADE EXECUTION PLAN</h3>
@@ -148,7 +164,6 @@ if st.session_state.auth:
     </div>
     """, unsafe_allow_html=True)
 
-    # Charting
     fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'])])
     fig.update_layout(template="plotly_dark", title="XAUUSD Real-Time Institutional Analysis (15m)", 
                       xaxis_rangeslider_visible=False, paper_bgcolor='black', plot_bgcolor='black', height=500)
