@@ -5,4 +5,3 @@ plotly
 firebase-admin
 streamlit-lottie
 requests
-https://github.com/twopirllc/pandas-ta/archive/refs/heads/development.zip
