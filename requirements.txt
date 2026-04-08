@@ -3,4 +3,6 @@ pandas
 yfinance
 plotly
 firebase-admin
-pandas-ta
+streamlit-lottie
+requests
+https://github.com/twopirllc/pandas-ta/archive/refs/heads/development.zip
