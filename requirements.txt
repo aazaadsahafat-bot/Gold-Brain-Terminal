@@ -1,8 +1,7 @@
-streamlit
-yfinance
-plotly
-pandas
-numpy
-firebase-admin
-requests
-ta
+streamlit==1.32.0
+yfinance==0.2.40
+plotly==5.20.0
+pandas==2.1.4
+numpy==1.26.2
+firebase-admin==6.5.0
+requests==2.31.0
