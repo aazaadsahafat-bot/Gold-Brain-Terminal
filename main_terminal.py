@@ -1,10 +1,3 @@
-# main_terminal.py
-"""
-ANDREW AI PRO v8.0 - Gold Institutional Terminal
-Lead Engineer: Production-Ready Fintech Architecture
-Deployment: Streamlit Cloud | Python 3.11 | Zero Dependencies Failures
-"""
-
 import streamlit as st
 import yfinance as yf
 import plotly.graph_objects as go
