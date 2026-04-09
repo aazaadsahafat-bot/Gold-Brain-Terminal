@@ -1,7 +1,8 @@
 streamlit
 yfinance
 plotly
-firebase-admin
-streamlit-lottie
-requests
 pandas
+numpy
+firebase-admin
+requests
+ta
